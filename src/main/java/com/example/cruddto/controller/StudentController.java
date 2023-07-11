@@ -6,7 +6,11 @@ import com.example.cruddto.dto.StudentDTO;
 import com.example.cruddto.repository.GroupRepository;
 import com.example.cruddto.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,14 @@ public class StudentController {
     public List<Student> allStudents(){
 
         return studentRepository.findAll();
+
+    }
+    @GetMapping("/page")
+    public Page<Student> getStudents(@PathVariable Integer page){
+        Pageable pageable = PageRequest.of(page,10);
+
+        Page<Student> all = studentRepository.findAll(pageable);
+        return all;
 
     }
 
